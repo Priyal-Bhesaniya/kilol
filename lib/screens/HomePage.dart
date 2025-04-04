@@ -1,45 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kilol/screens/AksharPage.dart';
+import 'package:kilol/screens/AnimalsPage.dart';
+import 'package:kilol/screens/EmotionsPage.dart';
+import 'package:kilol/screens/MathPage.dart';
+import 'package:kilol/screens/SanskarPage.dart';
+import 'package:kilol/screens/ShapesPage.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFF3E0), // Soft pastel background
+      backgroundColor: const Color(0xFFFFF8E1), // Light warm background
       appBar: AppBar(
         title: Text(
-          'કિલોલ - રમત અને શિક્ષણ', // Title in Gujarati
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          'કિલોલ - રમત અને શિક્ષણ',
+          style: GoogleFonts.balooBhai2(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Colors.deepOrangeAccent,
+        centerTitle: true,
+        elevation: 5,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Welcome text
-            Text(
-              'સ્વાગત છે, બાળકો! 🚀',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
-              ),
-            ),
-            SizedBox(height: 20),
+            // // Welcome text with emoji
+            // Text(
+            //   '🎉 સ્વાગત છે, બાળકો!',
+            //   style: GoogleFonts.balooBhai2(
+            //     fontSize: 32,
+            //     fontWeight: FontWeight.w700,
+            //     color: Colors.black,
+            //   ),
+            // ),
+            const SizedBox(height: 10),
 
-            // Grid Menu for Sections
+          
+            const SizedBox(height: 20),
+
+            // Grid Menu
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
                 children: [
-                  _buildCategoryTile(context, 'અક્ષરો', 'assets/images/k.png', Colors.blue),
-                  _buildCategoryTile(context, 'ગણિત', 'assets/icons/math.png', Colors.red),
-                  _buildCategoryTile(context, 'પ્રાણીઓ', 'assets/icons/animals.png', Colors.green),
-                  _buildCategoryTile(context, 'આકૃતિઓ', 'assets/icons/shapes.png', Colors.purple),
-                  _buildCategoryTile(context, 'ભાવનાઓ', 'assets/icons/emotions.png', Colors.orange),
-                  _buildCategoryTile(context, 'સંસ્કાર', 'assets/icons/values.png', Colors.teal),
+                  _buildCategoryTile(context, 'અક્ષરો', 'assets/images/k.png', Colors.blueAccent, AksharPage()),
+_buildCategoryTile(context, 'ગણિત', 'assets/images/ek.png', Colors.redAccent, Mathpage()),
+_buildCategoryTile(context, 'પ્રાણીઓ', 'assets/images/animals.jpg', Colors.green, Animalspage()),
+_buildCategoryTile(context, 'આકૃતિઓ', 'assets/images/shapes.jpg', Colors.deepPurple, Shapespage()),
+_buildCategoryTile(context, 'ભાવનાઓ', 'assets/images/imotions.webp', Colors.orange, Emotionspage()),
+_buildCategoryTile(context, 'સંસ્કાર', 'assets/images/sanskar.png', Colors.teal, Sanskarpage()),
+
                 ],
               ),
             ),
@@ -49,33 +66,57 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Widget for Category Buttons with Image Covering Box & Text Below
-  Widget _buildCategoryTile(BuildContext context, String title, String imagePath, Color color) {
-    return Column(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            width: double.infinity, // Ensures width adapts properly
-            height: 100, // Square box
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(color: Colors.black26, blurRadius: 5),
-              ],
-            ),
+ Widget _buildCategoryTile(
+    BuildContext context,
+    String title,
+    String imagePath,
+    Color color,
+    Widget destinationPage,
+  ) {
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => destinationPage),
+      );
+    },
+    borderRadius: BorderRadius.circular(20),
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: LinearGradient(
+          colors: [color.withOpacity(0.3), color.withOpacity(0.1)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(2, 2)),
+        ],
+      ),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             child: Image.asset(
               imagePath,
-              fit: BoxFit.cover, // Ensures image covers the square properly
+              height: 120,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
           ),
-        ),
-        SizedBox(height: 8),
-        Text(
-          title,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color),
-        ),
-      ],
-    );
-  }
+          const SizedBox(height: 10),
+          Text(
+            title,
+            style: GoogleFonts.balooBhai2(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 }
