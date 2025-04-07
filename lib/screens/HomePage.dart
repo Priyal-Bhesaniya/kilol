@@ -52,9 +52,9 @@ class HomePage extends StatelessWidget {
                 children: [
                   _buildCategoryTile(context, 'અક્ષરો', 'assets/images/k.png', Colors.blueAccent, AksharPage()),
 _buildCategoryTile(context, 'ગણિત', 'assets/images/ek.png', Colors.redAccent, Mathpage()),
-_buildCategoryTile(context, 'પ્રાણીઓ', 'assets/images/animals.jpg', Colors.green, Animalspage()),
+_buildCategoryTile(context, 'પ્રાણીઓ', 'assets/images/animals.jpg', Colors.green, AnimalsPage()),
 _buildCategoryTile(context, 'આકૃતિઓ', 'assets/images/shapes.jpg', Colors.deepPurple, Shapespage()),
-_buildCategoryTile(context, 'ભાવનાઓ', 'assets/images/imotions.webp', Colors.orange, Emotionspage()),
+_buildCategoryTile(context, 'ભાવનાઓ', 'assets/images/imotions.webp', Colors.orange, EmotionsPage()),
 _buildCategoryTile(context, 'સંસ્કાર', 'assets/images/sanskar.png', Colors.teal, Sanskarpage()),
 
                 ],

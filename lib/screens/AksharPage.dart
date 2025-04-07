@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kilol/screens/AksharLearnPage.dart';
+import 'package:kilol/screens/AksharTestPage.dart';
 
 class AksharPage extends StatelessWidget {
   @override
@@ -82,21 +83,3 @@ class AksharPage extends StatelessWidget {
 
 
 
-class AksharTestPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFF8E1),
-      appBar: AppBar(
-        title: Text('અક્ષરો પરીક્ષા'),
-        backgroundColor: Colors.deepOrange,
-      ),
-      body: Center(
-        child: Text(
-          'અક્ષરોની ટેસ્ટ અહીં આવશે',
-          style: TextStyle(fontSize: 20, color: Colors.black),
-        ),
-      ),
-    );
-  }
-}

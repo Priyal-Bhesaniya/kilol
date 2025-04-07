@@ -33,6 +33,7 @@ dependencies:
   lottie: ^3.1.2
   audioplayers: ^5.2.1
   google_fonts: ^6.1.0
+  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -73,8 +74,19 @@ flutter:
     - assets/images/shapes.jpg
     - assets/images/imotions.webp
     - assets/images/sanskar.png
+    - assets/images/letters/
+    - assets/animation/angry.json
+    - assets/animation/happy.json
+    - assets/animation/sadd.json
+    - assets/animation/elephant.json
+    - assets/animation/Horse.json
+    - assets/animation/Lion.json
+
+    - assets/animation/sleepy.json
+
 
     - assets/audio/try.mp3
+    - assets/audio/Lion.mp3
 
   
 
