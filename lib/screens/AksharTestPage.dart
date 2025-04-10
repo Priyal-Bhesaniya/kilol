@@ -52,7 +52,10 @@ class _AksharTestPageState extends State<AksharTestPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('અક્ષર ક્વિઝ'),
+        title: Text('પરીક્ષા',
+        style: TextStyle(
+          color: Colors.white,
+        ),),
         backgroundColor: Colors.deepOrange,
         centerTitle: true,
       ),

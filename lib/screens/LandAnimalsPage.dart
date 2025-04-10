@@ -7,19 +7,33 @@ class LandAnimalsPage extends StatelessWidget {
     {
       'name': 'સિંહ',
       'lottie': 'assets/animation/Lion.json',
-      'sound': 'assets/audio/Lion.mp3',
+      'sound': 'Lion.mp3',
     },
     {
       'name': 'હાથી',
       'lottie': 'assets/animation/elephant.json',
-      'sound': 'assets/audio/Elephant.mp3',
+      'sound': 'Elephant.mp3',
     },
     {
       'name': 'ઘોડો',
       'lottie': 'assets/animation/Horse.json',
-      'sound': 'assets/audio/Horse.mp3',
+      'sound': 'Horse.mp3',
     },
-    // Add more animals as needed
+    {
+      'name': 'બિલાડી',
+      'lottie': 'assets/animation/cat.json',
+      'sound': 'Cat.mp3',
+    },
+    {
+      'name': 'કૂતરો',
+      'lottie': 'assets/animation/dog.json',
+      'sound': 'Dog.mp3',
+    },
+    {
+      'name': 'વાંદરો',
+      'lottie': 'assets/animation/monkeyFinal.json',
+      'sound': 'macaco-38923.mp3',
+    },
   ];
 
   @override
@@ -67,13 +81,15 @@ class LandAnimalsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton.icon(
-  onPressed: () async {
-    final player = AudioPlayer();
-    await player.play(AssetSource('assets/audio/Lion.mp3'));
-  },
-  icon: const Icon(Icons.volume_up),
+                    onPressed: () async {
+                      final player = AudioPlayer();
+                      await player.play(
+                        AssetSource('audio/${animal['sound']}'),
+                      );
+                    },
+                    icon: const Icon(Icons.volume_up),
                     label: const Text(
-                      'આવાજ સાંભળો',
+                      '',
                       style: TextStyle(fontSize: 18),
                     ),
                     style: ElevatedButton.styleFrom(

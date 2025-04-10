@@ -8,7 +8,8 @@ class AksharPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8E1), // Soft light background
       appBar: AppBar(
-        title: Text('અક્ષરો'),
+        title: Text('અક્ષરો',
+        style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.deepOrange, // Strong orange for AppBar
         centerTitle: true,
         elevation: 4,

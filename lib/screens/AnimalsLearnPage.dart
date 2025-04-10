@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kilol/screens/AirAnimalpage.dart';
 import 'package:kilol/screens/LandAnimalsPage.dart';
+import 'package:kilol/screens/WaterAnimalPage.dart';
 
 class AnimalsLearnPage extends StatelessWidget {
   const AnimalsLearnPage({super.key});
@@ -25,7 +27,7 @@ class AnimalsLearnPage extends StatelessWidget {
             
             _buildAnimalCategoryCard(
               context,
-              title: 'જમીન પર રહેતાં પ્રાણીઓ',
+              title: 'જમીન પર રહેતાં ',
               icon: Icons.landscape,
               color: Colors.green.shade100,
               onTap: () {
@@ -38,22 +40,28 @@ class AnimalsLearnPage extends StatelessWidget {
             const SizedBox(height: 20),
             _buildAnimalCategoryCard(
               context,
-              title: 'પાણીમાં રહેતાં પ્રાણીઓ',
+              title: 'પાણીમાં રહેતાં ',
               icon: Icons.water,
               color: Colors.lightBlue.shade100,
-              onTap: () {
-                // Navigate to Water Animals List Page
-              },
+               onTap: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) =>WaterAnimalsPage() ),
+  );
+},
             ),
             const SizedBox(height: 20),
             _buildAnimalCategoryCard(
               context,
-              title: 'હવામાં ઉડતાં પ્રાણીઓ',
+              title: 'હવામાં ઉડતાં ',
               icon: Icons.flight,
               color: Colors.purple.shade100,
-              onTap: () {
-                // Navigate to Flying Animals List Page
-              },
+               onTap: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) =>AirAnimalsPage() ),
+  );
+},
             ),
           ],
         ),

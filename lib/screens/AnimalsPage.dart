@@ -8,7 +8,10 @@ class AnimalsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8E1), // Soft light background
       appBar: AppBar(
-        title: Text('પ્રાણીઓ'),
+        title: Text('પ્રાણીઓ',
+        style: TextStyle(
+          color: Colors.white,
+        ),),
         backgroundColor: Colors.deepOrange, // Matching AksharPage theme
         centerTitle: true,
         elevation: 4,

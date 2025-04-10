@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
+class MatchNameQuiz extends StatefulWidget {
+  const MatchNameQuiz({super.key});
+
+  @override
+  State<MatchNameQuiz> createState() => _MatchNameQuizState();
+}
+
+class _MatchNameQuizState extends State<MatchNameQuiz> {
+  final List<Map<String, String>> animals = [
+    {'name': 'સિંહ', 'lottie': 'assets/animation/Lion.json'},
+    {'name': 'હાથી', 'lottie': 'assets/animation/elephant.json'},
+    {'name': 'ઘોડો', 'lottie': 'assets/animation/Horse.json'},
+    {'name': 'બિલાડી', 'lottie': 'assets/animation/cat.json'},
+    {'name': 'કૂતરો', 'lottie': 'assets/animation/dog.json'},
+    {'name': 'વાંદરો', 'lottie': 'assets/animation/monkeyFinal.json'},
+    {'name': 'માછલી', 'lottie': 'assets/animation/fish.json'},
+    {'name': 'કાચબો', 'lottie': 'assets/animation/turtle.json'},
+    {'name': 'તારામાછલી', 'lottie': 'assets/animation/star-fish.json'},
+    {'name': 'દેડકો', 'lottie': 'assets/animation/frog.json'},
+    {'name': 'ચકલી', 'lottie': 'assets/animation/sparrow.json'},
+    {'name': 'કબૂતર', 'lottie': 'assets/animation/pigeon.json'},
+    {'name': 'મોર', 'lottie': 'assets/animation/peacock.json'},
+    {'name': 'પોપટ', 'lottie': 'assets/animation/parrot.json'},
+  ];
+
+  int currentIndex = 0;
+  bool? isCorrect;
+  bool showLarge = false;
+
+  void checkAnswer(String selectedName) {
+    final correctName = animals[currentIndex]['name'];
+    setState(() {
+      isCorrect = selectedName == correctName;
+      showLarge = isCorrect == true;
+    });
+
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        currentIndex = (currentIndex + 1) % animals.length;
+        isCorrect = null;
+        showLarge = false;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final current = animals[currentIndex];
+    final List<Map<String, String>> options = List.from(animals)..shuffle();
+
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Text('${current['name']} ને ઓળખો:',
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 20),
+          if (showLarge)
+            Expanded(
+              child: Center(
+                child: Lottie.asset(current['lottie']!, height: 250),
+              ),
+            )
+          else
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                children: options.map((animal) {
+                  return GestureDetector(
+                    onTap: () => checkAnswer(animal['name']!),
+                    child: Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        side: isCorrect == null
+                            ? BorderSide.none
+                            : (animal['name'] == current['name']
+                                ? const BorderSide(color: Colors.green, width: 3)
+                                : const BorderSide(color: Colors.red, width: 3)),
+                      ),
+                      child: Lottie.asset(animal['lottie']!, fit: BoxFit.contain),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

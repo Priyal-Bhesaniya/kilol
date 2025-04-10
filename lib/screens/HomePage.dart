@@ -55,7 +55,7 @@ _buildCategoryTile(context, 'ગણિત', 'assets/images/ek.png', Colors.redAc
 _buildCategoryTile(context, 'પ્રાણીઓ', 'assets/images/animals.jpg', Colors.green, AnimalsPage()),
 _buildCategoryTile(context, 'આકૃતિઓ', 'assets/images/shapes.jpg', Colors.deepPurple, Shapespage()),
 _buildCategoryTile(context, 'ભાવનાઓ', 'assets/images/imotions.webp', Colors.orange, EmotionsPage()),
-_buildCategoryTile(context, 'સંસ્કાર', 'assets/images/sanskar.png', Colors.teal, Sanskarpage()),
+// _buildCategoryTile(context, 'સંસ્કાર', 'assets/images/sanskar.png', Colors.teal, Sanskarpage()),
 
                 ],
               ),

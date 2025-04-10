@@ -81,12 +81,23 @@ flutter:
     - assets/animation/elephant.json
     - assets/animation/Horse.json
     - assets/animation/Lion.json
+    - assets/animation/dog.json
+    - assets/animation/monkey.json
+    - assets/animation/cat.json
 
+
+
+
+    - assets/animation/
+    - assets/images/
     - assets/animation/sleepy.json
 
 
     - assets/audio/try.mp3
     - assets/audio/Lion.mp3
+    - assets/audio/
+    
+
 
   
 
@@ -119,7 +130,7 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/Logo.png" # Update this to your new logo
+  image_path: "assets/images/animals.jpg" # Update this to your new logo
   adaptive_icon_background: "#ffffff"
 
 
