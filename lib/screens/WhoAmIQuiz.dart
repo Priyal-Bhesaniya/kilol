@@ -59,13 +59,21 @@ class _WhoAmIQuizState extends State<WhoAmIQuiz> {
     await _player.play(AssetSource('audio/$sound'));
   }
 
-  void checkAnswer(String selected) {
+  void checkAnswer(String selected) async {
     final correct = selected == animals[currentIndex]['name'];
     setState(() {
       isCorrect = correct;
       selectedAnswer = selected;
     });
 
+    // Play appropriate sound based on the correctness of the answer
+    if (correct) {
+      await _player.play(AssetSource('audio/good.mp3')); // Play good.mp3 for correct answer
+    } else {
+      await _player.play(AssetSource('audio/bad.mp3')); // Play bad.mp3 for incorrect answer
+    }
+
+    // Show the correct animation after answering
     if (correct) {
       setState(() => showFullScreenAnimation = true);
       Future.delayed(const Duration(seconds: 2), () {

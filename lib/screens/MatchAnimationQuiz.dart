@@ -47,27 +47,29 @@ class _MatchAnimationQuizState extends State<MatchAnimationQuiz> {
 
     setState(() {});
   }
+void _checkMatch(String target, String dropped) async {
+  if (target == dropped) {
+    setState(() {
+      matched[target] = dropped;
+    });
 
-  void _checkMatch(String target, String dropped) async {
-    if (target == dropped) {
-      setState(() {
-        matched[target] = dropped;
-      });
+    // Play good.mp3 for correct match
+    await _audioPlayer.play(AssetSource('audio/good.mp3'));
 
-      final sound = quizSet.firstWhere((e) => e['name'] == target)['sound'];
-      await _audioPlayer.play(AssetSource(sound!));
-
-      // All matched?
-      if (matched.values.every((v) => v != null)) {
-        await Future.delayed(const Duration(milliseconds: 700));
-        _showResult("સારો કામ! તમે બધું સાચું મેળવનુ!", Colors.green);
-        await Future.delayed(const Duration(seconds: 2));
-        _loadNewQuiz();
-      }
-    } else {
-      _showResult("ફરી પ્રયાસ કરો", Colors.red);
+    // Check if all matches are done
+    if (matched.values.every((v) => v != null)) {
+      await Future.delayed(const Duration(milliseconds: 700));
+      _showResult("બધું સાચું! ", Colors.green);
+      await Future.delayed(const Duration(seconds: 2));
+      _loadNewQuiz();
     }
+  } else {
+    // Play bad.mp3 for incorrect match
+    await _audioPlayer.play(AssetSource('audio/bad.mp3'));
+    _showResult("ફરી પ્રયાસ કરો", Colors.red);
   }
+}
+
 
   void _showResult(String message, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(

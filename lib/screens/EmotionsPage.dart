@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 
 class EmotionsPage extends StatefulWidget {
   @override
@@ -8,11 +9,13 @@ class EmotionsPage extends StatefulWidget {
 }
 
 class _EmotionsPageState extends State<EmotionsPage> {
+  final AudioPlayer player = AudioPlayer();
+
   final List<Map<String, dynamic>> emotions = [
-    {'animation': 'assets/animation/happy.json'},
-    {'animation': 'assets/animation/sadd.json'},
-    {'animation': 'assets/animation/angry.json'},
-    {'animation': 'assets/animation/sleepy.json'},
+    {'animation': 'assets/animation/happy.json', 'audio': 'happy.mp3'},
+    {'animation': 'assets/animation/sadd.json', 'audio': 'sad.mp3'},
+    {'animation': 'assets/animation/angry.json', 'audio': 'angry.mp3'},
+    {'animation': 'assets/animation/sleepy.json', 'audio': 'sleepy.mp3'},
   ];
 
   late int correctIndex;
@@ -23,6 +26,11 @@ class _EmotionsPageState extends State<EmotionsPage> {
   void initState() {
     super.initState();
     _loadNewQuestion();
+  }
+
+  void _playSound(String fileName) {
+    player.stop();
+    player.play(AssetSource('audio/$fileName'));
   }
 
   void _loadNewQuestion() {
@@ -39,12 +47,12 @@ class _EmotionsPageState extends State<EmotionsPage> {
     final correct = emotions[correctIndex]['animation'];
     setState(() {
       if (selected == correct) {
-        feedback = 'સારો કામ! 🎉';
+        _playSound('good.mp3');  // Play correct sound
         Future.delayed(Duration(seconds: 2), () {
           _loadNewQuestion();
         });
       } else {
-        feedback = 'ફરી પ્રયત્ન કરો!';
+        _playSound('bad.mp3');  // Play incorrect sound
       }
     });
   }
@@ -56,10 +64,7 @@ class _EmotionsPageState extends State<EmotionsPage> {
     return Scaffold(
       backgroundColor: Colors.pink.shade50,
       appBar: AppBar(
-        title: Text("મેચ કરો",
-        style: TextStyle(
-          color : Colors.white,
-        ),),
+        title: Text("મેચ કરો", style: TextStyle(color : Colors.white)),
         backgroundColor: Colors.pinkAccent,
         centerTitle: true,
       ),
@@ -114,7 +119,10 @@ class _EmotionsPageState extends State<EmotionsPage> {
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(
                   feedback,
-                  style: TextStyle(fontSize: 24, color: feedback == 'સારો કામ! 🎉' ? Colors.green : Colors.red, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: feedback == 'correct' ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
           ],

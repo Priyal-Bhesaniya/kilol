@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class AksharTestPage extends StatefulWidget {
   @override
@@ -11,6 +12,8 @@ class _AksharTestPageState extends State<AksharTestPage> {
   bool showSvar = true;
   bool showSuccessOverlay = false;
   bool showFailOverlay = false;
+
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   final Map<String, Map<String, String>> svarMap = {
     'અ': {'image': 'a.webp', 'name': 'અનાનસ'},
@@ -28,15 +31,17 @@ class _AksharTestPageState extends State<AksharTestPage> {
     'ચ': {'image': 'cha.jpg', 'name': 'ચકલી'},
   };
 
-  void checkAnswer(String selected, String correctAnswer) {
+  void checkAnswer(String selected, String correctAnswer) async {
     bool isCorrect = selected == correctAnswer;
     setState(() {
-      if (isCorrect) {
-        showSuccessOverlay = true;
-      } else {
-        showFailOverlay = true;
-      }
+      showSuccessOverlay = isCorrect;
+      showFailOverlay = !isCorrect;
     });
+
+    await _audioPlayer.stop();
+    await _audioPlayer.play(
+      AssetSource('audio/${isCorrect ? 'good.mp3' : 'bad.mp3'}'),
+    );
 
     Timer(Duration(seconds: 2), () {
       setState(() {
@@ -52,10 +57,10 @@ class _AksharTestPageState extends State<AksharTestPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('પરીક્ષા',
-        style: TextStyle(
-          color: Colors.white,
-        ),),
+        title: Text(
+          'પરીક્ષા',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.deepOrange,
         centerTitle: true,
       ),
@@ -78,7 +83,7 @@ class _AksharTestPageState extends State<AksharTestPage> {
             ),
           ),
           if (showSuccessOverlay)
-            _buildOverlay('🎉 સારું કામ!', Colors.green),
+            _buildOverlay('🎉 ખુબ જ સારું!', Colors.green),
           if (showFailOverlay)
             _buildOverlay('❌ ફરી પ્રયાસ કરો', Colors.red),
         ],

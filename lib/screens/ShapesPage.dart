@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kilol/screens/AksharLearnPage.dart';
 import 'package:kilol/screens/AksharTestPage.dart';
+import 'package:kilol/screens/ShapeLearnPage.dart';
+import 'package:kilol/screens/ShapeTestPage.dart';
 
 class Shapespage extends StatelessWidget {
   @override
@@ -38,7 +40,7 @@ class Shapespage extends StatelessWidget {
               icon: Icons.menu_book,
               label: 'અભ્યાસ કરો',
               color: Colors.orangeAccent.shade100, // Lighter orange for learning
-              destination: AksharLearnPage(),
+              destination: ShapeLearnPage(),
               textColor: Colors.black,
             ),
             SizedBox(height: 20),
@@ -47,7 +49,7 @@ class Shapespage extends StatelessWidget {
               icon: Icons.quiz,
               label: 'પરીક્ષા આપો',
               color: Colors.deepOrangeAccent, // Darker orange for test
-              destination: AksharTestPage(),
+              destination: Shapetestpage(),
               textColor: Colors.white,
             ),
           ],

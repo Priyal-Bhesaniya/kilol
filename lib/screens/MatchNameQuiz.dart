@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:audioplayers/audioplayers.dart'; // Import the package
 
 class MatchNameQuiz extends StatefulWidget {
   const MatchNameQuiz({super.key});
@@ -29,14 +30,24 @@ class _MatchNameQuizState extends State<MatchNameQuiz> {
   int currentIndex = 0;
   bool? isCorrect;
   bool showLarge = false;
+  final AudioPlayer _audioPlayer = AudioPlayer(); // Audio player instance
 
-  void checkAnswer(String selectedName) {
+  void checkAnswer(String selectedName) async {
     final correctName = animals[currentIndex]['name'];
+
     setState(() {
       isCorrect = selectedName == correctName;
       showLarge = isCorrect == true;
     });
 
+    // Play good.mp3 if correct, bad.mp3 if incorrect
+    if (isCorrect == true) {
+      await _audioPlayer.play(AssetSource('audio/good.mp3')); // Play good.mp3
+    } else {
+      await _audioPlayer.play(AssetSource('audio/bad.mp3')); // Play bad.mp3
+    }
+
+    // Move to next question after a short delay
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         currentIndex = (currentIndex + 1) % animals.length;
@@ -44,6 +55,12 @@ class _MatchNameQuizState extends State<MatchNameQuiz> {
         showLarge = false;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose(); // Clean up the audio player when done
+    super.dispose();
   }
 
   @override
