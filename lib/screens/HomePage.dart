@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kilol/main.dart';
 import 'package:kilol/screens/AksharPage.dart';
 import 'package:kilol/screens/AnimalsPage.dart';
 import 'package:kilol/screens/EmotionsPage.dart';
@@ -13,117 +14,112 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF8E1), // Light warm background
+      backgroundColor: Color(0xFFFFF8E1),
+
       appBar: AppBar(
-        title: Text(
-          'કિલોલ - રમત અને શિક્ષણ',
-          style: GoogleFonts.balooBhai2(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
         backgroundColor: Colors.deepOrangeAccent,
-        centerTitle: true,
         elevation: 5,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // // Welcome text with emoji
-            // Text(
-            //   '🎉 સ્વાગત છે, બાળકો!',
-            //   style: GoogleFonts.balooBhai2(
-            //     fontSize: 32,
-            //     fontWeight: FontWeight.w700,
-            //     color: Colors.black,
-            //   ),
-            // ),
-            const SizedBox(height: 10),
-
-          
-            const SizedBox(height: 20),
-
-            // Grid Menu
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                children: [
-                  _buildCategoryTile(context, 'અક્ષરો', 'assets/images/k.png', Colors.blueAccent, AksharPage()),
-_buildCategoryTile(context, 'ગણિત', 'assets/images/ek.png', Colors.redAccent, Mathpage()),
-_buildCategoryTile(context, 'પ્રાણીઓ', 'assets/images/animals.jpg', Colors.green, AnimalsPage()),
-
-_buildCategoryTile(context, 'આકૃતિઓ', 'assets/images/shapes.jpg', Colors.deepPurple, Shapespage()),
-_buildCategoryTile(context, 'શાકભાજી', 'assets/images/vegetables.jpg', Colors.lightGreen, VegetablesPage()),
-_buildCategoryTile(context, 'ફળો', 'assets/images/fruits.jpg', Colors.pinkAccent, FruitsPage()),
-_buildCategoryTile(context, 'ભાવનાઓ', 'assets/images/imotions.webp', Colors.orange, EmotionsPage()),
-_buildCategoryTile(context, 'સંસ્કાર', 'assets/images/sanskar.png', Colors.teal, Sanskarpage()),
-
-
-
-                ],
+            // App Name on the left
+            Text(
+              t(context, "app_title"),
+              style: GoogleFonts.balooBhai2(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
+
+            // Language Dropdown on the right
+            ValueListenableBuilder(
+              valueListenable: AppLanguage.lang,
+              builder: (context, value, child) {
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: DropdownButton<String>(
+                    value: value,
+                    underline: SizedBox(),
+                    icon: Icon(Icons.language, color: Colors.white),
+                    dropdownColor: Colors.deepOrangeAccent,
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    items: const [
+                      DropdownMenuItem(value: "gu", child: Text("ગુજરાતી")),
+                      DropdownMenuItem(value: "hi", child: Text("हिंदी")),
+                      DropdownMenuItem(value: "en", child: Text("English")),
+                    ],
+                    onChanged: (val) {
+                      AppLanguage.lang.value = val!;
+                    },
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 15,
+          children: [
+            _tile(context, t(context, "letters"), "assets/images/k.png", Colors.blueAccent, AksharPage()),
+            _tile(context, t(context, "math"), "assets/images/ek.png", Colors.redAccent, Mathpage()),
+            _tile(context, t(context, "animals"), "assets/images/animals.jpg", Colors.green, AnimalsPage()),
+            _tile(context, t(context, "shapes"), "assets/images/shapes.jpg", Colors.deepPurple, Shapespage()),
+            _tile(context, t(context, "vegetables"), "assets/images/vegetables.jpg", Colors.lightGreen, VegetablesPage()),
+            _tile(context, t(context, "fruits"), "assets/images/fruits.jpg", Colors.pinkAccent, FruitsPage()),
+            _tile(context, t(context, "emotions"), "assets/images/imotions.webp", Colors.orange, EmotionsPage()),
+            _tile(context, t(context, "culture"), "assets/images/sanskar.png", Colors.teal, Sanskarpage()),
           ],
         ),
       ),
     );
   }
 
- Widget _buildCategoryTile(
-    BuildContext context,
-    String title,
-    String imagePath,
-    Color color,
-    Widget destinationPage,
-  ) {
-  return InkWell(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => destinationPage),
-      );
-    },
-    borderRadius: BorderRadius.circular(20),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(
-          colors: [color.withOpacity(0.3), color.withOpacity(0.1)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+  Widget _tile(BuildContext context, String title, String path, Color color, Widget page) {
+    return InkWell(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => page)),
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+            colors: [color.withOpacity(0.3), color.withOpacity(0.1)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(2, 2)),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(2, 2)),
-        ],
-      ),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            child: Image.asset(
-              imagePath,
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              child: Image.asset(path, height: 120, width: double.infinity, fit: BoxFit.cover),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: GoogleFonts.balooBhai2(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-          ),
-        ],
+            SizedBox(height: 10),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.balooBhai2(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            )
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

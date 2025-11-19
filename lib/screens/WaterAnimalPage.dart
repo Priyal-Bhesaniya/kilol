@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:kilol/main.dart'; // For AppLanguage
 
 class WaterAnimalsPage extends StatelessWidget {
-  final List<Map<String, String>> waterAnimals = [
+  // Animal data with translations
+  final List<Map<String, Map<String, String>>> waterAnimals = [
     {
-      'name': 'માછલી',
-      'lottie': 'assets/animation/fish.json',
-      'sound': 'Fish.mp3',
+      'name': {'en': 'Fish', 'hi': 'मछली', 'gu': 'માછલી'},
+      'lottie': {'en': 'assets/animation/fish.json'},
     },
     {
-      'name': 'કાચબો',
-      'lottie': 'assets/animation/turtle.json',
-      'sound': 'Turtle.mp3',
+      'name': {'en': 'Turtle', 'hi': 'कछुआ', 'gu': 'કાચબો'},
+      'lottie': {'en': 'assets/animation/turtle.json'},
     },
     {
-      'name': 'તારામાછલી',
-      'lottie': 'assets/animation/star-fish.json',
-      'sound': 'star-fish.mp3',
+      'name': {'en': 'Starfish', 'hi': 'स्टारफिश', 'gu': 'તારામાછલી'},
+      'lottie': {'en': 'assets/animation/star-fish.json'},
     },
     {
-      'name': 'દેડકો',
-      'lottie': 'assets/animation/frog.json',
-      'sound': 'Frog.mp3',
+      'name': {'en': 'Frog', 'hi': 'मेंढक', 'gu': 'દેડકો'},
+      'lottie': {'en': 'assets/animation/frog.json'},
     },
   ];
 
@@ -32,12 +29,35 @@ class WaterAnimalsPage extends StatelessWidget {
       backgroundColor: const Color(0xFFE0F7FA),
       appBar: AppBar(
         title: const Text(
-          'પાણીમાં રહેતાં જીવો',
+          'પાણીમાં રહેતાં જીવો', // Keep static title
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.teal,
         centerTitle: true,
         elevation: 5,
+        actions: [
+          // Language Dropdown on the right
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: DropdownButton<String>(
+              value: AppLanguage.lang.value,
+              dropdownColor: Colors.teal,
+              icon: const Icon(Icons.language, color: Colors.white),
+              underline: const SizedBox(),
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              items: const [
+                DropdownMenuItem(value: "en", child: Text("English")),
+                DropdownMenuItem(value: "hi", child: Text("हिंदी")),
+                DropdownMenuItem(value: "gu", child: Text("ગુજરાતી")),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  AppLanguage.lang.value = value; // Updates animal names dynamically
+                }
+              },
+            ),
+          ),
+        ],
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(20),
@@ -56,41 +76,19 @@ class WaterAnimalsPage extends StatelessWidget {
               child: Column(
                 children: [
                   Lottie.asset(
-                    animal['lottie']!,
+                    animal['lottie']!['en']!,
                     height: 200,
                     fit: BoxFit.contain,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    animal['name']!,
+                    animal['name']![AppLanguage.lang.value]!, // Dynamic name
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w800,
                       color: Colors.teal,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  // ElevatedButton.icon(
-                  //   onPressed: () async {
-                  //     final player = AudioPlayer();
-                  //     await player.play(
-                  //       AssetSource('audio/${animal['sound']}'),
-                  //     );
-                  //   },
-                  //   icon: const Icon(Icons.volume_up),
-                  //   label: const Text(''),
-                  //   style: ElevatedButton.styleFrom(
-                  //     backgroundColor: Colors.teal,
-                  //     foregroundColor: Colors.white,
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(30),
-                  //     ),
-                  //     padding: const EdgeInsets.symmetric(
-                  //       horizontal: 24,
-                  //       vertical: 12,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

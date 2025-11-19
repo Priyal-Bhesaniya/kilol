@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:kilol/main.dart'; // For AppLanguage
 
 class LandAnimalsPage extends StatelessWidget {
-  final List<Map<String, String>> landAnimals = [
+  // Animal data with translations
+  final List<Map<String, Map<String, String>>> landAnimals = [
     {
-      'name': 'સિંહ',
-      'lottie': 'assets/animation/Lion.json',
-      'sound': 'Lion.mp3',
+      'name': {'en': 'Lion', 'hi': 'सिंह', 'gu': 'સિંહ'},
+      'lottie': {'en': 'assets/animation/Lion.json'},
+      'sound': {'en': 'Lion.mp3'},
     },
     {
-      'name': 'હાથી',
-      'lottie': 'assets/animation/elephant.json',
-      'sound': 'Elephant.mp3',
+      'name': {'en': 'Elephant', 'hi': 'हाथी', 'gu': 'હાથી'},
+      'lottie': {'en': 'assets/animation/elephant.json'},
+      'sound': {'en': 'Elephant.mp3'},
     },
     {
-      'name': 'ઘોડો',
-      'lottie': 'assets/animation/Horse.json',
-      'sound': 'Horse.mp3',
+      'name': {'en': 'Horse', 'hi': 'घोड़ा', 'gu': 'ઘોડો'},
+      'lottie': {'en': 'assets/animation/Horse.json'},
+      'sound': {'en': 'Horse.mp3'},
     },
     {
-      'name': 'બિલાડી',
-      'lottie': 'assets/animation/cat.json',
-      'sound': 'Cat.mp3',
+      'name': {'en': 'Cat', 'hi': 'बिल्ली', 'gu': 'બિલાડી'},
+      'lottie': {'en': 'assets/animation/cat.json'},
+      'sound': {'en': 'Cat.mp3'},
     },
     {
-      'name': 'કૂતરો',
-      'lottie': 'assets/animation/dog.json',
-      'sound': 'dog-bark-sfx-322245.mp3',
+      'name': {'en': 'Dog', 'hi': 'कुत्ता', 'gu': 'કૂતરો'},
+      'lottie': {'en': 'assets/animation/dog.json'},
+      'sound': {'en': 'dog-bark-sfx-322245.mp3'},
     },
     {
-      'name': 'વાંદરો',
-      'lottie': 'assets/animation/monkeyFinal.json',
-      'sound': 'macaco-38923.mp3',
+      'name': {'en': 'Monkey', 'hi': 'बंदर', 'gu': 'વાંદરો'},
+      'lottie': {'en': 'assets/animation/monkeyFinal.json'},
+      'sound': {'en': 'macaco-38923.mp3'},
     },
   ];
 
@@ -42,12 +44,35 @@ class LandAnimalsPage extends StatelessWidget {
       backgroundColor: const Color(0xFFFFF8E1),
       appBar: AppBar(
         title: const Text(
-          'જમીન પર રહેતાં પ્રાણીઓ',
+          'જમીન પર રહેતાં પ્રાણીઓ', // Keep static in Gujarati
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.deepOrange,
         centerTitle: true,
         elevation: 5,
+        actions: [
+          // Language Dropdown on the right
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: DropdownButton<String>(
+              value: AppLanguage.lang.value,
+              dropdownColor: Colors.deepOrangeAccent,
+              icon: const Icon(Icons.language, color: Colors.white),
+              underline: const SizedBox(),
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              items: const [
+                DropdownMenuItem(value: "en", child: Text("English")),
+                DropdownMenuItem(value: "hi", child: Text("हिंदी")),
+                DropdownMenuItem(value: "gu", child: Text("ગુજરાતી")),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  AppLanguage.lang.value = value; // Updates names dynamically
+                }
+              },
+            ),
+          ),
+        ],
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(20),
@@ -66,13 +91,13 @@ class LandAnimalsPage extends StatelessWidget {
               child: Column(
                 children: [
                   Lottie.asset(
-                    animal['lottie']!,
+                    animal['lottie']!['en']!,
                     height: 200,
                     fit: BoxFit.contain,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    animal['name']!,
+                    animal['name']![AppLanguage.lang.value]!, // Dynamic name
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w800,
@@ -84,14 +109,11 @@ class LandAnimalsPage extends StatelessWidget {
                     onPressed: () async {
                       final player = AudioPlayer();
                       await player.play(
-                        AssetSource('audio/${animal['sound']}'),
+                        AssetSource('audio/${animal['sound']!['en']}'),
                       );
                     },
                     icon: const Icon(Icons.volume_up),
-                    label: const Text(
-                      '',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    label: const Text(''),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepOrange,
                       foregroundColor: Colors.white,
