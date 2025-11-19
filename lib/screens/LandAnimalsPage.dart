@@ -27,7 +27,7 @@ class LandAnimalsPage extends StatelessWidget {
     {
       'name': 'કૂતરો',
       'lottie': 'assets/animation/dog.json',
-      'sound': 'Dog.mp3',
+      'sound': 'dog-bark-sfx-322245.mp3',
     },
     {
       'name': 'વાંદરો',

@@ -3,9 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kilol/screens/AksharPage.dart';
 import 'package:kilol/screens/AnimalsPage.dart';
 import 'package:kilol/screens/EmotionsPage.dart';
+import 'package:kilol/screens/FruitsPage.dart';
 import 'package:kilol/screens/MathPage.dart';
 import 'package:kilol/screens/SanskarPage.dart';
 import 'package:kilol/screens/ShapesPage.dart';
+import 'package:kilol/screens/VegetablesPage.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -53,9 +55,14 @@ class HomePage extends StatelessWidget {
                   _buildCategoryTile(context, 'અક્ષરો', 'assets/images/k.png', Colors.blueAccent, AksharPage()),
 _buildCategoryTile(context, 'ગણિત', 'assets/images/ek.png', Colors.redAccent, Mathpage()),
 _buildCategoryTile(context, 'પ્રાણીઓ', 'assets/images/animals.jpg', Colors.green, AnimalsPage()),
+
 _buildCategoryTile(context, 'આકૃતિઓ', 'assets/images/shapes.jpg', Colors.deepPurple, Shapespage()),
+_buildCategoryTile(context, 'શાકભાજી', 'assets/images/vegetables.jpg', Colors.lightGreen, VegetablesPage()),
+_buildCategoryTile(context, 'ફળો', 'assets/images/fruits.jpg', Colors.pinkAccent, FruitsPage()),
 _buildCategoryTile(context, 'ભાવનાઓ', 'assets/images/imotions.webp', Colors.orange, EmotionsPage()),
-// _buildCategoryTile(context, 'સંસ્કાર', 'assets/images/sanskar.png', Colors.teal, Sanskarpage()),
+_buildCategoryTile(context, 'સંસ્કાર', 'assets/images/sanskar.png', Colors.teal, Sanskarpage()),
+
+
 
                 ],
               ),

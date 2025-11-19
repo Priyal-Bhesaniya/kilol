@@ -34,9 +34,11 @@ class _MathtestpageState extends State<Mathtestpage> {
   ];
 
   final AudioPlayer player = AudioPlayer();
+  final Random random = Random();
+
   String feedback = '';
   late Map<String, String> currentItem;
-  final Random random = Random();
+  String? selectedChoice;
 
   @override
   void initState() {
@@ -46,7 +48,6 @@ class _MathtestpageState extends State<Mathtestpage> {
 
   @override
   void dispose() {
-    // Dispose the audio player when it's no longer needed.
     player.dispose();
     super.dispose();
   }
@@ -55,38 +56,28 @@ class _MathtestpageState extends State<Mathtestpage> {
     setState(() {
       currentItem = numbers[random.nextInt(numbers.length)];
       feedback = '';
+      selectedChoice = null;
     });
   }
 
-  void _showFeedback(bool isCorrect) {
+  void _showFeedback(bool isCorrect, {String? choice}) {
     setState(() {
-      feedback = isCorrect ? 'સારો કામ! 🎉' : 'ફરી પ્રયાસ કરો 🙈';
+      selectedChoice = choice ?? '';
+      feedback = isCorrect ? '🎉 ખુબ જ સારું!' : 'ફરી પ્રયાસ કરો 🙈';
     });
 
-    // Play the appropriate sound based on the feedback
     _playSound(isCorrect ? 'good.mp3' : 'bad.mp3');
 
-    Future.delayed(const Duration(seconds: 1), _loadNewQuestion);
+    Future.delayed(const Duration(seconds: 2), _loadNewQuestion);
   }
 
- Future<void> _playSound(String soundFile) async {
-  try {
-    // Print the sound file for debugging
-    print('Playing sound: assets/audio/$soundFile');
-
-    // Play the audio from the asset
-    await player.play(AssetSource('audio/$soundFile'));
-
-    // Optional: print a message once playback starts
-    print('Sound is playing');
-
-  } catch (e) {
-    // Print the error if any occurs while playing the sound
-    print('Audio error: $e');
+  Future<void> _playSound(String soundFile) async {
+    try {
+      await player.play(AssetSource('audio/$soundFile'));
+    } catch (e) {
+      print('Audio error: $e');
+    }
   }
-}
-
-
 
   Widget _quizMatchGujarati() {
     List<Map<String, String>> options = [currentItem];
@@ -119,7 +110,7 @@ class _MathtestpageState extends State<Mathtestpage> {
   Widget _quizFillInTheBlank() {
     int index = numbers.indexOf(currentItem);
     if (index < 1 || index >= numbers.length - 1) {
-      currentItem = numbers[2]; // fallback
+      currentItem = numbers[2];
       index = 2;
     }
 
@@ -134,17 +125,46 @@ class _MathtestpageState extends State<Mathtestpage> {
     }
     choices.shuffle();
 
+    bool isAnswered = selectedChoice != null;
+    Color answerColor = selectedChoice == null
+        ? Colors.teal
+        : (selectedChoice == correct ? Colors.green : Colors.red);
+
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('ખાલી જગ્યા ભરો:', style: TextStyle(fontSize: 24)),
-        Text('$prev  __  $next', style: const TextStyle(fontSize: 40, color: Colors.teal)),
+        const Text(
+          'ખાલી જગ્યા ભરો:',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 20),
+        AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 300),
+          style: TextStyle(
+            fontSize: isAnswered ? 60 : 40,
+            color: answerColor,
+            fontWeight: FontWeight.bold,
+          ),
+          child: Text(
+            isAnswered
+                ? '$prev  $selectedChoice  $next'
+                : '$prev  __  $next',
+          ),
+        ),
+        const SizedBox(height: 30),
         Wrap(
-          spacing: 12,
+          spacing: 16,
           children: choices.map((choice) {
             return ElevatedButton(
-              onPressed: () => _showFeedback(choice == correct),
-              child: Text(choice, style: const TextStyle(fontSize: 26)),
+              onPressed: selectedChoice == null
+                  ? () => _showFeedback(choice == correct, choice: choice)
+                  : null,
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                textStyle: const TextStyle(fontSize: 26),
+                backgroundColor: Colors.white,
+              ),
+              child: Text(choice),
             );
           }).toList(),
         ),
@@ -166,7 +186,7 @@ class _MathtestpageState extends State<Mathtestpage> {
       children: [
         const Text('ધ્વનિ સાંભળો અને યોગ્ય નંબર પસંદ કરો', style: TextStyle(fontSize: 24)),
         IconButton(
-          icon: const Icon(Icons.volume_up, size: 36),
+          icon: const Icon(Icons.volume_up, size: 77),
           onPressed: () => _playSound('${currentItem['digit']}.mp3'),
         ),
         const SizedBox(height: 20),
@@ -189,10 +209,7 @@ class _MathtestpageState extends State<Mathtestpage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'પરીક્ષા',
-            style: TextStyle(color: Colors.white),
-          ),
+          title: const Text('પરીક્ષા', style: TextStyle(color: Colors.white)),
           centerTitle: true,
           backgroundColor: Colors.indigo,
           bottom: const TabBar(
@@ -227,7 +244,7 @@ class _MathtestpageState extends State<Mathtestpage> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: feedback.contains('સારો') ? Colors.green : Colors.red,
+                    color: feedback.contains('🎉') ? Colors.green : Colors.red,
                   ),
                 ),
             ],

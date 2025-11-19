@@ -16,25 +16,57 @@ class _SanskarpageState extends State<Sanskarpage> {
       'title': 'નમસ્તે',
       'desc': 'મોટાઓને મળતા નમસ્તે કરો',
       'icon': 'assets/images/namste.jpg',
-      'audio': 'namaste.mp3'
+      'audio':'adar1.mp3',
+      
     },
     {
       'title': 'આદર',
       'desc': 'માતા-પિતા અને ગુરુજનોને આદર આપો',
-      'icon': 'assets/icons/respect.png',
-      'audio': 'respect.mp3'
+      'icon': 'assets/images/n2.webp',
+      'audio':'adar2.mp3',
+      
     },
     {
-      'title': 'સારો સ્પર્શ',
+      'title': 'Good Touch',
       'desc': 'હગ, પીઠ પર થપક – સારો સ્પર્શ',
-      'icon': 'assets/icons/good_touch.png',
-      'audio': 'good_touch.mp3'
+      'icon': 'assets/images/goodtouch.png',
+      'audio':'adar3.mp3',
+    
     },
     {
-      'title': 'ખરાબ સ્પર્શ',
+      'title': 'Good Touch',
+      'desc': 'હગ, પીઠ પર થપક – સારો સ્પર્શ',
+      'icon': 'assets/images/goodtouch2.png',
+      'audio':'adar3.mp3',
+    
+    },
+    {
+      'title': 'Good Touch',
+      'desc': 'હગ, પીઠ પર થપક – સારો સ્પર્શ',
+      'icon': 'assets/images/goodtouch3.png',
+      'audio':'adar3.mp3',
+    
+    },
+    {
+      'title': 'Bad Touch',
       'desc': 'જ્યાં દુઃખ થાય એવો સ્પર્શ – નહીં કહો!',
-      'icon': 'assets/icons/bad_touch.png',
-      'audio': 'bad_touch.mp3'
+      'icon': 'assets/images/badtouch.png',
+      'audio':'adar4.mp3',
+      
+    },
+    {
+      'title': 'Bad Touch',
+      'desc': 'જ્યાં દુઃખ થાય એવો સ્પર્શ – નહીં કહો!',
+      'icon': 'assets/images/badtouch2.png',
+      'audio':'adar4.mp3',
+      
+    },
+    {
+      'title': 'Bad Touch',
+      'desc': 'જ્યાં દુઃખ થાય એવો સ્પર્શ – નહીં કહો!',
+      'icon': 'assets/images/badtouch3.png',
+      'audio':'adar4.mp3',
+      
     },
   ];
 
@@ -49,7 +81,7 @@ class _SanskarpageState extends State<Sanskarpage> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8E1),
       appBar: AppBar(
-        title: const Text('સંસ્કાર', style: TextStyle(color: Colors.white, fontSize: 22)),
+        title: const Text('સંસ્કાર', style: TextStyle(color: Colors.white, fontSize: 24)),
         backgroundColor: Colors.deepOrange,
         centerTitle: true,
       ),
@@ -64,44 +96,43 @@ class _SanskarpageState extends State<Sanskarpage> {
             child: InkWell(
               onTap: () => _playSound(item['audio']),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                child: Column(
                   children: [
-                    // Image icon
+                    // Image icon (larger size)
                     Container(
-                      height: 80,
-                      width: 80,
+                      height: 300,
+                      width: 300,
                       decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
+                        color: Colors.orange.shade50,
                         shape: BoxShape.circle,
                       ),
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(16),
                       child: Image.asset(
                         item['icon'] ?? 'assets/icons/default.png',
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    // Text
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item['title'] ?? '',
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            item['desc'] ?? '',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
+                    const SizedBox(height: 12),
+                    // Title Text under image
+                    Text(
+                      item['title'] ?? '',
+                      style: const TextStyle(
+                          fontSize: 26, fontWeight: FontWeight.bold, color: Colors.deepOrange),
                     ),
-                    const Icon(Icons.volume_up, size: 30, color: Colors.deepOrange),
+                    const SizedBox(height: 6),
+                    // Description Text under title
+                    Text(
+                      item['desc'] ?? '',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 12),
+                    // Volume Icon under the description text
+                    IconButton(
+                      icon: const Icon(Icons.volume_up, size: 36, color: Colors.deepOrange),
+                      onPressed: () => _playSound(item['audio']),
+                    ),
                   ],
                 ),
               ),

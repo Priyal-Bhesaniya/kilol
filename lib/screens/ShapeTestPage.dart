@@ -76,7 +76,7 @@ class _ShapetestpageState extends State<Shapetestpage> {
 
     setState(() {
       isCorrect = correct;
-      feedback = correct ? 'સારો કામ!' : 'ફરી પ્રયાસ કરો!';
+      feedback = correct ? '🎉 ખુબ જ સારું!' : 'ફરી પ્રયાસ કરો!';
       feedbackColor = correct ? Colors.green.shade200 : Colors.red.shade200;
     });
 

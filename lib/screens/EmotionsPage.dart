@@ -12,15 +12,30 @@ class _EmotionsPageState extends State<EmotionsPage> {
   final AudioPlayer player = AudioPlayer();
 
   final List<Map<String, dynamic>> emotions = [
-    {'animation': 'assets/animation/happy.json', 'audio': 'happy.mp3'},
-    {'animation': 'assets/animation/sadd.json', 'audio': 'sad.mp3'},
-    {'animation': 'assets/animation/angry.json', 'audio': 'angry.mp3'},
-    {'animation': 'assets/animation/sleepy.json', 'audio': 'sleepy.mp3'},
+    {
+      'animation': 'assets/animation/happy.json',
+      'audio': 'happy.mp3',
+      'name': 'ખુશ' // Happy
+    },
+    {
+      'animation': 'assets/animation/sadd.json',
+      'audio': 'sad.mp3',
+      'name': 'ઉદાસ' // Sad
+    },
+    {
+      'animation': 'assets/animation/angry.json',
+      'audio': 'angry.mp3',
+      'name': 'ગુસ્સાવાળું' // Angry
+    },
+    {
+      'animation': 'assets/animation/sleepy.json',
+      'audio': 'sleepy.mp3',
+      'name': 'ઊંઘાળું' // Sleepy
+    },
   ];
 
   late int correctIndex;
   late List<Map<String, dynamic>> options;
-  String feedback = '';
 
   @override
   void initState() {
@@ -39,20 +54,19 @@ class _EmotionsPageState extends State<EmotionsPage> {
       correctIndex = Random().nextInt(emotions.length);
       options = List<Map<String, dynamic>>.from(emotions);
       options.shuffle();
-      feedback = '';
     });
   }
 
-  void _checkAnswer(String selected) {
+  void _checkAnswer(String selectedAnimation) {
     final correct = emotions[correctIndex]['animation'];
     setState(() {
-      if (selected == correct) {
-        _playSound('good.mp3');  // Play correct sound
+      if (selectedAnimation == correct) {
+        _playSound('good.mp3');
         Future.delayed(Duration(seconds: 2), () {
           _loadNewQuestion();
         });
       } else {
-        _playSound('bad.mp3');  // Play incorrect sound
+        _playSound('bad.mp3');
       }
     });
   }
@@ -64,7 +78,7 @@ class _EmotionsPageState extends State<EmotionsPage> {
     return Scaffold(
       backgroundColor: Colors.pink.shade50,
       appBar: AppBar(
-        title: Text("મેચ કરો", style: TextStyle(color : Colors.white)),
+        title: Text("ભાવના ઓળખો", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.pinkAccent,
         centerTitle: true,
       ),
@@ -72,17 +86,12 @@ class _EmotionsPageState extends State<EmotionsPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text(
-              "આ ભાવના સાથે મેળ ખાતું એનિમેશન પસંદ કરો!",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20),
-            Lottie.asset(
-              targetEmotion['animation'],
-              height: 180,
-              repeat: true,
-            ),
+           Text(
+  '“${targetEmotion['name'] ?? 'અજ્ઞાત'}” માટે સાચું એનિમેશન પસંદ કરો:',
+  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+  textAlign: TextAlign.center,
+),
+
             SizedBox(height: 20),
             Expanded(
               child: GridView.count(
@@ -114,17 +123,6 @@ class _EmotionsPageState extends State<EmotionsPage> {
                 }).toList(),
               ),
             ),
-            if (feedback.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  feedback,
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: feedback == 'correct' ? Colors.green : Colors.red,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
           ],
         ),
       ),
